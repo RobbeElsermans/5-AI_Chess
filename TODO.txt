@@ -1,0 +1,8 @@
+Alpha, beta pruning
+https://github.com/lamesjim/Chess-AI
+https://www.quora.com/What-are-some-heuristics-for-quickly-evaluating-chess-positions
+
+Monte carlo
+https://medium.com/@ishaan.gupta0401/monte-carlo-tree-search-application-on-chess-5573fc0efb75
+https://www.chessprogramming.org/Monte-Carlo_Tree_Search
+
