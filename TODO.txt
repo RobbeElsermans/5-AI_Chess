@@ -5,8 +5,11 @@ https://www.quora.com/What-are-some-heuristics-for-quickly-evaluating-chess-posi
 Monte carlo
 https://medium.com/@ishaan.gupta0401/monte-carlo-tree-search-application-on-chess-5573fc0efb75
 https://www.chessprogramming.org/Monte-Carlo_Tree_Search
+https://puzzling.stackexchange.com/questions/43771/monte-carlo-chess?rq=1
+https://github.com/Amouon/Chess
+
 
 
 We gaan voor Monte Carlo
-
+ - We moeten iteraties hebben om de policy te bepalen
 
