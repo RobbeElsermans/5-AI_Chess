@@ -4,13 +4,13 @@ import chess
 import chess.svg
 from project.chess_utilities.example_utility import ExampleUtility
 from project.chess_agents.example_agent import ExampleAgent
-
+from project.chess_agents.robbeAgent import RobbeAgent
 """ Two agents play against eachother until the game is finished """
 def play_self():
     # Setup a clean board
     board = chess.Board()
     # Create the white and black agent
-    white_player = ExampleAgent(ExampleUtility(), 5.0)
+    white_player = RobbeAgent(ExampleUtility(), 5.0)
     white_player.name = "White Player"
     black_player = ExampleAgent(ExampleUtility(), 5.0)
     black_player.name = "Black Player"

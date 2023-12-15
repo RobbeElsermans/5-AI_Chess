@@ -8,7 +8,6 @@ class UciEngine():
         self.author = author
         self.agent = agent
         
-        
     def engine_operation(self):
         # Create a clean chess board
         board = chess.Board()
@@ -33,6 +32,9 @@ class UciEngine():
                     board = chess.Board()
                     for move in input_val[3::]:
                         board.push_uci(move)
+
+                elif input_val[0] == "go":
+                    print("bestmove {}".format(self.agent.calculate_move(board)))
 
             elif len(input_val) > 0:
                 if input_val[0] == "uci":

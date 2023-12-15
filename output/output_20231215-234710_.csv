@@ -1,0 +1,8 @@
+round,Completed_iteration,total_simulations,average_sim_per_it,max_reward,total_wins,total_losses,total_wins_per_it
+0,1302,468152,359.5637480798771,5.0,99,94,0.07603686635944701
+round,Completed_iteration,total_simulations,average_sim_per_it,max_reward,total_wins,total_losses,total_wins_per_it
+0,1282,455508,355.3104524180967,0,90,101,0.07020280811232449
+round,Completed_iteration,total_simulations,average_sim_per_it,max_reward,total_wins,total_losses,total_wins_per_it
+0,1134,396898,349.9982363315697,0,79,110,0.06966490299823633
+round,Completed_iteration,total_simulations,average_sim_per_it,max_reward,total_wins,total_losses,total_wins_per_it
+0,1210,432174,357.1685950413223,15.0,93,78,0.0768595041322314
