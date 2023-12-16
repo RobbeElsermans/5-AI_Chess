@@ -7,6 +7,10 @@ https://medium.com/@ishaan.gupta0401/monte-carlo-tree-search-application-on-ches
 https://www.chessprogramming.org/Monte-Carlo_Tree_Search
 https://puzzling.stackexchange.com/questions/43771/monte-carlo-chess?rq=1
 https://github.com/Amouon/Chess
+https://builtin.com/machine-learning/monte-carlo-tree-search
+https://www.geeksforgeeks.org/upper-confidence-bound-algorithm-in-reinforcement-learning/
+https://github.com/Ish2K/Chess-Bot-AI-Algorithms/blob/main/Git_chess/monte_carlo_implementation.py
+https://www.youtube.com/watch?v=lhFXKNyA0QA&t=462s
 
 
 
