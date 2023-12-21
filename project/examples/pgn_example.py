@@ -6,6 +6,7 @@ import os
 def pgn_example():
     # Open the file containing the game information
     dirname = os.path.dirname(__file__)
+    #filename = os.path.join(dirname, '../data/kasparov-deep-blue-1997.pgn')
     filename = os.path.join(dirname, '../data/kasparov-deep-blue-1997.pgn')
     pgn = open(filename)
     running = True

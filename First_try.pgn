@@ -1,0 +1,30 @@
+[Event "Computer chess game"]
+[Site "ELZA"]
+[Date "2023.12.21"]
+[Round "?"]
+[White "Run_engine_robbe"]
+[Black "Run_engine_robbe"]
+[Result "1-0"]
+[BlackElo "2000"]
+[ECO "A00"]
+[Opening "Anderssen Opening"]
+[Time "18:23:39"]
+[WhiteElo "2000"]
+[TimeControl "480"]
+[Termination "normal"]
+[PlyCount "131"]
+[WhiteType "program"]
+[BlackType "program"]
+
+1. a3 c5 2. Nh3 Nh6 3. g3 e6 4. Ng1 b5 5. Nf3 Qc7 6. Ra2 Bd6 7. Nc3 f5 8.
+Nd5 Qc6 9. Ne7 Bc7 10. Nh4 b4 11. Nxc8 a6 12. Ng6 Qa4 13. Nf4 Qxa3 14. Ng2
+Ng8 15. Nf4 Kf8 16. Bh3 Nh6 17. Na7 b3 18. Nd5 Kg8 19. Rg1 Ng4 20. Nf4 h6
+21. Nd5 Qxb2 22. Nb4 h5 23. Nc8 d6 24. Bxb2 Rh7 25. Ne7+ Kf7 26. Ng8 Nf6
+27. Nxa6 Nxg8 28. cxb3 Ra7 29. Ra3 Nd7 30. Nxc7 Nb8 31. Bf1 Rh6 32. Nxe6
+Rc7 33. Bc1 Rxe6 34. Bb2 Ne7 35. Bf6 Nc8 36. f4 Ree7 37. Bh3 Red7 38. g4
+Kf8 39. b4 gxf6 40. Ra2 hxg4 41. Rg2 g3 42. Bg4 Kg8 43. Rxg3 Kh8 44. Bh3
+Rg7 45. Qa4 Rg5 46. Rb3 Kg8 47. Kd1 Ne7 48. Rg3 Rc8 49. Qd7 Kf8 50. Rg2 Re8
+51. d3 Nec6 52. Qc8 Rxc8 53. Rf2 Kf7 54. Kc1 Kg6 55. Bf1 Kh5 56. Bh3 Re8
+57. Ra1 Rg6 58. Kb2 d5 59. Re1 Re3 60. Bg2 Reg3 61. hxg3 c4 62. Bh3 Rg8 63.
+Rh1 Rd8 64. Ka1 Rd6 65. dxc4 dxc4 66. Bxf5# 1-0
+

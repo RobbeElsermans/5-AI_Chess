@@ -1,0 +1,5 @@
+round,Completed_iteration,total_simulations,average_sim_per_it,max_reward,total_wins,total_losses,total_wins_per_it
+0,80,23107,288.8375,2.5,0,14,0.0
+1,80,18162,227.025,2.5,0,16,0.0
+2,80,17203,215.0375,2.5,1,13,0.0125
+3,80,20595,257.4375,3.5,0,14,0.0

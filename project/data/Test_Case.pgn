@@ -1,0 +1,19 @@
+[Event "Computer chess game"]
+[Site "ELZA"]
+[Date "2023.12.21"]
+[Round "?"]
+[White "Run_engine_robbe"]
+[Black "Run_engine"]
+[Result "*"]
+[BlackElo "2000"]
+[ECO "A00"]
+[Opening "Kadas (Desprez) Opening"]
+[Time "18:56:10"]
+[WhiteElo "2000"]
+[Termination "unterminated"]
+[PlyCount "7"]
+[WhiteType "program"]
+[BlackType "program"]
+
+1. h4 g5 2. d3 gxh4 3. Nf3 Nh6 4. Bxh6 *
+

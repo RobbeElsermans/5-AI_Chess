@@ -1,0 +1,1 @@
+python -m project.chess_engines.robbe_engine
