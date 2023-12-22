@@ -1,7 +1,7 @@
 import math
 import chess
 
-CONST_C = 1.0
+CONST_C = 0.8
 CONST_GEEN_NULL_PROBELEM = 1
 
 
@@ -14,14 +14,13 @@ class Node():
         self.score = 0
 
     def calcUCB(self):
-        if self.parent is None:
+        if self.times_visited == 0:
             return float('inf')
 
-        if self.parent.times_visited == 0:
-            parent_times_visited = 1
+        exploit = self.score / (self.times_visited)
+        explore = None
+        if self.parent is not None:
+            explore = CONST_C * math.sqrt(math.log(self.parent.times_visited) / self.times_visited)
         else:
-            parent_times_visited = self.parent.times_visited
-
-        exploit = (self.score / (self.times_visited + CONST_GEEN_NULL_PROBELEM))
-        explore = CONST_C * math.sqrt(math.log(parent_times_visited) / (self.times_visited + CONST_GEEN_NULL_PROBELEM))
+            explore = CONST_C * math.sqrt(math.log(self.times_visited) / self.times_visited)
         return exploit + explore

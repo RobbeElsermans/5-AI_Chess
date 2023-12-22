@@ -6,7 +6,7 @@ def visualize_tree(node, graph=None):
         graph = Digraph()
 
     # Add the current node to the graph
-    node_label = f"\nScore: {node.score}\nVisits: {node.times_visited}"
+    node_label = f"\nScore: {node.score}\nVisits: {node.times_visited} \nUCB:{node.calcUCB()}"
     graph.node(str(id(node)), label=node_label)
 
     for child in node.children.values():

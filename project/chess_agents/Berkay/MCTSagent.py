@@ -23,8 +23,12 @@ class MCTSAgent(Agent):
 
     def calculate_move(self, board: chess.Board):
 
+        if self.color is None:
+            self.color = board.turn
+
         if self.tree is None:
             self.tree = Node(board.copy())
+            self.tree.times_visited += 1
         else:
             prev_move = board.peek()
             if prev_move in self.tree.children:
@@ -38,7 +42,7 @@ class MCTSAgent(Agent):
         start_time = time.time()
         test = 0
 
-        #MCST
+        # MCST
         while time.time() - start_time < self.time_limit_move:
             leaf = self.selection(self.tree)
             child = self.expansion(leaf)
@@ -68,52 +72,42 @@ class MCTSAgent(Agent):
         return best_move
 
     def selection(self, tree: Node):
-        bestScore = 0.0
-        bestChildren = []
+        while tree.children:
+            bestScore = float('-inf')
+            bestChildren = []
 
-        if not tree.children:
-            return tree
+            for child in tree.children.values():
+                child_score = child.calcUCB()
+                if child_score > bestScore:
+                    bestScore = child_score
+                    bestChildren = [child]
+                elif child_score == bestScore:
+                    bestChildren.append(child)
+            if bestScore <= tree.calcUCB():
+                break
 
-        for child in list(tree.children.values()):
-            if child.calcUCB() > bestScore:
-                bestScore = child.calcUCB()
-                bestChildren = [child]
-            else:
-                bestChildren.append(child)
+            tree = random.choice(bestChildren)
 
-        return self.selection(random.choice(bestChildren))
+        return tree
 
     def expansion(self, leaf: Node):  # voegt nodes toe
-        """legal_moves = leaf.state.legal_moves
-        for move in legal_moves:
-            new_state = leaf.state.copy()
-            new_state.push(move)
-            newChild = Node(new_state)
-            newChild.parent = leaf
-            leaf.children[move] = newChild
-
-        if leaf.children:
-            return random.choice(list(leaf.children.values()))  # een van de nieuwe Nodes die gemaakt zijn
-        else:
-            return leaf"""
-
         legal_moves = leaf.state.legal_moves
-        move = random.choice(list(legal_moves))
+        untried_moves = [move for move in legal_moves if move not in leaf.children]
 
-        if move:
-            new_state = leaf.state.copy()
-            new_state.push(move)
-            newChild = Node(new_state)
-            newChild.parent = leaf
-            leaf.children[move] = newChild
-
-        if leaf.children:
-            return random.choice(list(leaf.children.values()))  # een van de nieuwe Nodes die gemaakt zijn
-        else:
+        if not untried_moves:
             return leaf
 
+        move = random.choice(untried_moves)
 
-    def simulation(self, child: Node, depth_limit=500):  # rollout: geeft de reward
+        new_state = leaf.state.copy()
+        new_state.push(move)
+        newChild = Node(new_state)
+        newChild.parent = leaf
+        leaf.children[move] = newChild
+
+        return newChild  # een van de nieuwe Nodes die gemaakt zijn
+
+    def simulation(self, child: Node, depth_limit=6):  # rollout: geeft de reward
         current_state = child.state.copy()
         for i in range(depth_limit):
 
@@ -132,13 +126,13 @@ class MCTSAgent(Agent):
             if current_state.is_checkmate():
                 winner = current_state.outcome().winner
                 if winner == self.color:
-                    return 1
+                    return 1000
                 else:
-                    return -1
+                    return -1000
             else:
-                return 0
+                return -1
         else:
-            return 0.5
+            return 0
 
     def backprop(self, result: float, child: Node):
         child.times_visited += 1
@@ -148,3 +142,4 @@ class MCTSAgent(Agent):
             child.times_visited += 1
             child.parent.score += result
             child = child.parent
+        child.times_visited += 1

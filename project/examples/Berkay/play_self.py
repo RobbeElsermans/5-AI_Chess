@@ -15,10 +15,8 @@ def play_self():
     # Create the white and black agent
     white_player = MCTSAgent(ExampleUtility(), 5.0)
     white_player.name = "White Player"
-    white_player.color = chess.WHITE
     black_player = MCTSAgent(ExampleUtility(), 10.0)
     black_player.name = "Black Player"
-    black_player.color = chess.BLACK
 
     running = True
     turn_white_player = True
