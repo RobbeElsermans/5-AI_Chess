@@ -1,52 +1,53 @@
 #!/usr/bin/python3
+import chess
+import chess.svg
+from project.chess_agents.Berkay.MCTSagent import MCTSAgent
 from project.chess_utilities.gegeven.example_utility import ExampleUtility
 from project.chess_agents.Gegeven.example_agent import ExampleAgent
-import chess
-import chess.engine
-import chess.pgn
 
-""" An agent plays a game against the stockfish engine """
-def play_stockfish():
-    
-    time_limit = 5.0
-        
-    # Setup
+""" Two agents play against eachother until the game is finished """
+
+
+def play_self():
+    # Setup a clean board
     board = chess.Board()
-    # Define agent here
-    white_player = ExampleAgent(ExampleUtility(), 5.0)
-    # Enter your path here:
-    black_player = chess.engine.SimpleEngine.popen_uci("C:/Users/ATroch/Documents/stockfish/stockfish.exe")
-    # Determine the skill level of Stockfish:
-    black_player.configure({"Skill Level": 1})
-    limit = chess.engine.Limit(time=time_limit)
+    board.set_fen("8/2K5/8/2k5/2b5/2B5/2Q5/8")
+    # Create the white and black agent
+    white_player = MCTSAgent(ExampleUtility(), 20.0)
+    white_player.name = "White Player"
+    white_player.color = chess.WHITE
+    black_player = MCTSAgent(ExampleUtility(), 10.0)
+    black_player.name = "Black Player"
+    black_player.color = chess.BLACK
 
     running = True
     turn_white_player = True
+    counter = 0
 
     # Game loop
     while running:
+        counter += 1
         move = None
 
         if turn_white_player:
-            # White plays a random move
             move = white_player.calculate_move(board)
             turn_white_player = False
             print("White plays")
         else:
-            # Stockfish plays a move
-            move = black_player.play(board, limit).move
+            move = black_player.calculate_move(board)
             turn_white_player = True
             print("Black plays")
 
+        # The move is played and the board is printed
         board.push(move)
         print(board)
         print("----------------------------------------")
-        
+
         # Check if a player has won
         if board.is_checkmate():
             running = False
             if turn_white_player:
-                print("Stockfish wins!")
+                print("{} wins!".format(black_player.name))
             else:
                 print("{} wins!".format(white_player.name))
 
@@ -64,11 +65,10 @@ def play_stockfish():
             running = False
             print("Draw by 75-moves rule")
 
-    black_player.quit()
-    return board
 
 def main():
-    play_stockfish()
+    play_self()
+
 
 if __name__ == "__main__":
     main()

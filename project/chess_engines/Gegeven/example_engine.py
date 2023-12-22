@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-from project.chess_engines.uci_engine import UciEngine
-import chess
-from project.chess_agents.example_agent import ExampleAgent
-from project.chess_utilities.example_utility import ExampleUtility
+from project.chess_engines.Gegeven.uci_engine import UciEngine
+from project.chess_agents.Gegeven.example_agent import ExampleAgent
+from project.chess_utilities.gegeven.example_utility import ExampleUtility
 
 if __name__ == "__main__":
     # Create your utility

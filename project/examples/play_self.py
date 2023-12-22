@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-from project.chess_utilities.utility import Utility
 import chess
 import chess.svg
-from project.chess_utilities.example_utility import ExampleUtility
-from project.chess_agents.example_agent import ExampleAgent
+from project.chess_utilities.gegeven.example_utility import ExampleUtility
+from project.chess_agents.Gegeven.example_agent import ExampleAgent
 
 """ Two agents play against eachother until the game is finished """
+
+
 def play_self():
     # Setup a clean board
     board = chess.Board()
@@ -37,7 +38,6 @@ def play_self():
         board.push(move)
         print(board)
         print("----------------------------------------")
-        
 
         # Check if a player has won
         if board.is_checkmate():
@@ -60,7 +60,7 @@ def play_self():
         elif board.is_seventyfive_moves():
             running = False
             print("Draw by 75-moves rule")
-        
+
 
 def main():
     play_self()

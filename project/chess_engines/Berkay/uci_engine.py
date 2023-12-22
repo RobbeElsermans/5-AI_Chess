@@ -1,5 +1,5 @@
 import chess
-from project.chess_agents.agent import Agent
+from project.chess_agents.Gegeven.agent import Agent
 
 class UciEngine():
     

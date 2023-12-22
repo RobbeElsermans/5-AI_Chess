@@ -1,6 +1,6 @@
 from abc import ABC
 import chess
-from project.chess_utilities.utility import Utility
+from project.chess_utilities.gegeven.utility import Utility
 
 """A generic agent class"""
 
