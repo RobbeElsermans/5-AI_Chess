@@ -51,12 +51,13 @@ class MCTSAgent(Agent):
         best_score = -float('inf')
         nextStates = self.tree.children
 
-        for move in board.legal_moves:
-            if nextStates[move].score > best_score:
-                best_score = nextStates[move].score
-                best_moves = [move]
-            elif nextStates[move].score == best_score:
-                best_moves.append(move)
+        for move in list(board.legal_moves):
+            if move in nextStates:
+                if nextStates[move].score > best_score:
+                    best_score = nextStates[move].score
+                    best_moves = [move]
+                elif nextStates[move].score == best_score:
+                    best_moves.append(move)
 
         tree_graph = visualize_tree(self.tree)
         tree_graph.render('mcts_tree', format='svg', view=True)
@@ -83,7 +84,7 @@ class MCTSAgent(Agent):
         return self.selection(random.choice(bestChildren))
 
     def expansion(self, leaf: Node):  # voegt nodes toe
-        legal_moves = leaf.state.legal_moves
+        """legal_moves = leaf.state.legal_moves
         for move in legal_moves:
             new_state = leaf.state.copy()
             new_state.push(move)
@@ -94,7 +95,23 @@ class MCTSAgent(Agent):
         if leaf.children:
             return random.choice(list(leaf.children.values()))  # een van de nieuwe Nodes die gemaakt zijn
         else:
+            return leaf"""
+
+        legal_moves = leaf.state.legal_moves
+        move = random.choice(list(legal_moves))
+
+        if move:
+            new_state = leaf.state.copy()
+            new_state.push(move)
+            newChild = Node(new_state)
+            newChild.parent = leaf
+            leaf.children[move] = newChild
+
+        if leaf.children:
+            return random.choice(list(leaf.children.values()))  # een van de nieuwe Nodes die gemaakt zijn
+        else:
             return leaf
+
 
     def simulation(self, child: Node, depth_limit=500):  # rollout: geeft de reward
         current_state = child.state.copy()
