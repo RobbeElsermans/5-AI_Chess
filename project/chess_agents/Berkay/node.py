@@ -2,7 +2,7 @@ import math
 import chess
 
 CONST_C = 1.0
-CONST_GEEN_NULL_PROBELEM = 10 ** -5
+CONST_GEEN_NULL_PROBELEM = 1
 
 
 class Node():

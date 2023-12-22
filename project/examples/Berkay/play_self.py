@@ -13,7 +13,7 @@ def play_self():
     board = chess.Board()
     board.set_fen("8/2K5/8/2k5/2b5/2B5/2Q5/8")
     # Create the white and black agent
-    white_player = MCTSAgent(ExampleUtility(), 20.0)
+    white_player = MCTSAgent(ExampleUtility(), 5.0)
     white_player.name = "White Player"
     white_player.color = chess.WHITE
     black_player = MCTSAgent(ExampleUtility(), 10.0)

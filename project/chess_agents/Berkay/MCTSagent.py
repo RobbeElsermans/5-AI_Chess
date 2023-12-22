@@ -4,6 +4,9 @@ import chess
 from project.chess_utilities.gegeven.utility import Utility
 from project.chess_agents.Berkay.node import Node
 from project.chess_agents.Berkay.agent import Agent
+from graphviz import Digraph
+
+from project.chess_agents.Berkay.visual import visualize_tree
 
 import time
 
@@ -54,6 +57,9 @@ class MCTSAgent(Agent):
                 best_moves = [move]
             elif nextStates[move].score == best_score:
                 best_moves.append(move)
+
+        tree_graph = visualize_tree(self.tree)
+        tree_graph.render('mcts_tree', format='svg', view=True)
 
         print("Best Score: ", best_score)
         best_move = random.choice(best_moves)
