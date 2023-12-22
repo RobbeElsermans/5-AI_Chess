@@ -1,0 +1,21 @@
+[Event "Computer chess game"]
+[Site "ELZA"]
+[Date "2023.12.22"]
+[Round "?"]
+[White "Run_engine"]
+[Black "Run_engine_robbe"]
+[Result "0-1"]
+[BlackElo "2000"]
+[ECO "A00"]
+[Opening "Polish (Sokolsky-Orangutan) Opening"]
+[Time "09:54:33"]
+[WhiteElo "2000"]
+[TimeControl "480"]
+[Termination "normal"]
+[PlyCount "22"]
+[WhiteType "program"]
+[BlackType "program"]
+
+1. b4 f6 2. Bb2 Nc6 3. Bxf6 Kf7 4. Bxg7 Nh6 5. Bxh8 Ke6 6. Bg7 Bxg7 7. Nh3
+Qh8 8. Ng5+ Kd6 9. Nxh7 Bd4 10. Nf8 Qf6 11. Nxd7 Qxf2# 0-1
+

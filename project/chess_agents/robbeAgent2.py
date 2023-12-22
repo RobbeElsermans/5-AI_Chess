@@ -104,8 +104,8 @@ class MonteCarloAlgorithm:
         set_time = time.time()
 
         #om met een timer te werken
-        #while(time.time() - set_time < self.iterations):
-        while self.completed_iterations < 1000: # zolang er geen x-aantal iteraties gebeurd zijn
+        while(time.time() - set_time < self.iterations):
+        #while self.completed_iterations < 600: # zolang er geen x-aantal iteraties gebeurd zijn
             self.completed_iterations += 1
 
             leaf_node = self.selection(self.root_node)
@@ -153,8 +153,8 @@ class MonteCarloAlgorithm:
         #if node.state.is_checkmate or node.state.is_stalemate():
         #    return node
 
-        if node.moves == 0:  # Wanneer we hier nog geen kansen hebben, voeren we eerst de simulatie uit.
-            return node
+        #if node.moves == 0:  # Wanneer we hier nog geen kansen hebben, voeren we eerst de simulatie uit.
+        #    return node
         # Anders expanden we de leaf node en nemen we een random child hiervan
 
         # We bekijken alle mogelijke moves van de node en we voegen ze toe aan de node
@@ -193,7 +193,7 @@ class MonteCarloAlgorithm:
             # ran_move = random.choice(list(sim_state.legal_moves))
 
             #use_special_sim = sim_state.turn  # Zorg ervoor dat enkel WHITE de privillege krijgt
-            use_special_sim = True
+            use_special_sim = False
             ran_move = None
             super_move = []
 
@@ -279,25 +279,28 @@ class MonteCarloAlgorithm:
             # return -1.0
         if sim_state.is_checkmate():
             # Als de not pion schaak staat door de poin -> 1
+            # if not sim_state.turn:
+            #     return -1
+            # return 1
             if not sim_state.turn: # De not pion is schaakmat
                 if node.pion:
-                    return -1            # Als het de pion is die de sim starte, stuur 1 terug.
+                    return 1            # Als het de pion is die de sim starte, stuur 1 terug.
                 else:
-                    return 1           # Als het de NOT pion is die de sim starte, stuur 1 terug.
+                    return -1           # Als het de NOT pion is die de sim starte, stuur -1 terug.
             else:                   # De pion is schaakmat
                 if node.pion:
-                    return 1           # Als het de pion is die de sim starte, stuur -1 terug.
+                    return -1           # Als het de pion is die de sim starte, stuur -1 terug.
                 else:
-                    return -1            # Als het de NOT pion is die de sim starte, stuur 1 terug.
+                    return 1            # Als het de NOT pion is die de sim starte, stuur 1 terug.
 
         # self.total_end_games += 1
         # Als draw, stuur 0.5 voor NOT pion en -0.5 voor PION
         if node.pion:
-            return 0.5
+           return -0.5
         else:
-            return -0.5
+           return 0.5
 
-        return 0
+        return -0.5
 
     def backpropagation(self, reward: float, node: Node):
 
@@ -313,7 +316,7 @@ class MonteCarloAlgorithm:
 
             if not parent.parent == None: # als er een parent aanwezig is
                 parent = parent.parent  # next parent
-                reward = (-1) * reward  # flip value
+                reward = (-1)*reward  # flip value
             else:
                 break
 
@@ -326,14 +329,14 @@ class MonteCarloAlgorithm:
 
         # Exploration
         #c = math.sqrt(2)
-        c = 20
+        c = 1
         number_of_parent_playouts = self.root_node.moves
 
         ucb = math.inf  # Als  number_of_playouts = 0 -> x/0 = infinity -> ucb = infinity
 
         if number_of_playouts > 0:
-            exploitation = total_utility / number_of_playouts
-            exploration = c * math.sqrt(math.log(number_of_parent_playouts)/number_of_playouts)
+            exploitation = total_utility / (number_of_playouts +1)
+            exploration = c * math.sqrt(math.log(number_of_parent_playouts)/(number_of_playouts+1))
 
             ucb = exploitation + exploration
 
