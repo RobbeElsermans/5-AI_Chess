@@ -12,6 +12,6 @@ if __name__ == "__main__":
     agent = MCTSAgent(utility, 5.0)
     agent.color = chess.BLACK
     # Create the engine
-    engine = UciEngine("My Engine", "Berkay", agent)
+    engine = UciEngine("My Engine X", "Berkay", agent)
     # Run the engine (will loop until the game is done or exited)
     engine.engine_operation()

@@ -6,7 +6,7 @@ from project.chess_agents.Berkay.node import Node
 from project.chess_agents.Berkay.agent import Agent
 from graphviz import Digraph
 from project.chess_agents.Berkay import Hyperparameters
-
+from project.chess_utilities.tom_utility import TomUtility
 from project.chess_agents.Berkay.visual import visualize_tree
 
 import time
@@ -16,12 +16,14 @@ import time
 
 class MCTSAgent(Agent):
 
-    def __init__(self, utility: Utility, time_limit_move: float, win=Hyperparameters.WIN, lose=Hyperparameters.LOSE, draw=Hyperparameters.DRAW, notDone=Hyperparameters.NOTDONE, c=Hyperparameters.C) -> None:
+    def __init__(self, utility: Utility, time_limit_move: float,
+                 win=Hyperparameters.WIN, lose=Hyperparameters.LOSE, draw=Hyperparameters.DRAW, notDone=Hyperparameters.NOTDONE, c=Hyperparameters.C,
+                 cmb=Hyperparameters.CMB, ccc=Hyperparameters.CCC, cpa=Hyperparameters.CPA, ccp=Hyperparameters.CCP) -> None:
         """Setup the Search Agent"""
         super().__init__(utility, time_limit_move)
         self.tree = None
         self.color = None
-
+        self.factors = [cmb, ccc, cpa, ccp]
         self.win = win
         self.lose = lose
         self.draw = draw
@@ -70,8 +72,8 @@ class MCTSAgent(Agent):
                 elif nextStates[move].score == best_score:
                     best_moves.append(move)
 
-        tree_graph = visualize_tree(self.tree)
-        tree_graph.render('mcts_tree', format='svg', view=True)
+        #tree_graph = visualize_tree(self.tree)
+        #tree_graph.render('mcts_tree', format='svg', view=True)
 
         print("Best Score: ", best_score)
         best_move = random.choice(best_moves)
@@ -133,9 +135,12 @@ class MCTSAgent(Agent):
             if current_state.is_checkmate():
                 winner = current_state.outcome().winner
                 if winner == self.color:
-                    return self.win
+
+                    #return self.win
+                    return self.utility.board_value(current_state, self.factors)
                 else:
-                    return self.lose
+                    #return self.lose
+                    return -self.utility.board_value(current_state, self.factors)
             else:
                 return self.draw
         else:

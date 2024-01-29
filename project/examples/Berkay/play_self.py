@@ -3,6 +3,7 @@ import chess
 import chess.svg
 from project.chess_agents.Berkay.MCTSagent import MCTSAgent
 from project.chess_utilities.gegeven.example_utility import ExampleUtility
+from project.chess_utilities.tom_utility import TomUtility
 from project.chess_agents.Gegeven.example_agent import ExampleAgent
 
 """ Two agents play against eachother until the game is finished """
@@ -11,11 +12,12 @@ from project.chess_agents.Gegeven.example_agent import ExampleAgent
 def play_self():
     # Setup a clean board
     board = chess.Board()
-    # board.set_fen("8/2K5/8/2k5/2b5/2B5/2Q5/8")
+    board.set_fen("8/2K5/8/2k5/2b5/2B5/2Q5/8")
     # Create the white and black agent
-    white_player = MCTSAgent(ExampleUtility(), 5.0)
+    white_player = ExampleAgent(ExampleUtility(), 5.0)
     white_player.name = "White Player"
-    black_player = MCTSAgent(ExampleUtility(), 10.0)
+    #black_player = MCTSAgent(ExampleUtility(), 2.0)
+    black_player = MCTSAgent(TomUtility(), 5.0)
     black_player.name = "Black Player"
 
     running = True

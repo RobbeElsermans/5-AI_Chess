@@ -1,1 +1,1 @@
-conda activate 5AI_chess & python -m project.chess_engines.example_engine
+conda activate 5AI_chess & python -m project.chess_engines.Berkay.my_engine
