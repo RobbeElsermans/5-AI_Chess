@@ -16,26 +16,20 @@ import time
 
 class MCTSAgent(Agent):
 
-    def __init__(self, utility: Utility, time_limit_move: float,
-                 win=Hyperparameters.WIN, lose=Hyperparameters.LOSE, draw=Hyperparameters.DRAW, notDone=Hyperparameters.NOTDONE, c=Hyperparameters.C,
-                 cmb=Hyperparameters.CMB, ccc=Hyperparameters.CCC, cpa=Hyperparameters.CPA, ccp=Hyperparameters.CCP) -> None:
+    def __init__(self, utility: Utility, time_limit_move: float, params = Hyperparameters.PARAMS) -> None:
         """Setup the Search Agent"""
         super().__init__(utility, time_limit_move)
         self.tree = None
         self.color = None
-        self.factors = [cmb, ccc, cpa, ccp]
-        self.win = win
-        self.lose = lose
-        self.draw = draw
-        self.notDone = notDone
-        self.c = c
+        self.factors = params
+        self.c = params[8]
 
     def calculate_move(self, board: chess.Board):
 
         if self.color is None:
             self.color = board.turn
 
-        if self.tree is None:
+        if self.tree is None or not board.move_stack:
             self.tree = Node(board.copy())
             self.tree.times_visited += 1
         else:
@@ -58,7 +52,7 @@ class MCTSAgent(Agent):
             result = self.simulation(child)
             self.backprop(result, child)
             test += 1
-        print("hoevele keer gedaan deze loop: ", test)
+        #print("hoevele keer gedaan deze loop: ", test)
 
         best_moves = []
         best_score = -float('inf')
@@ -75,7 +69,7 @@ class MCTSAgent(Agent):
         #tree_graph = visualize_tree(self.tree)
         #tree_graph.render('mcts_tree', format='svg', view=True)
 
-        print("Best Score: ", best_score)
+        #print("Best Score: ", best_score)
         best_move = random.choice(best_moves)
         self.tree = nextStates[best_move]
         return best_move
@@ -131,20 +125,7 @@ class MCTSAgent(Agent):
             current_state.push(move)
 
         # uitkomst
-        if current_state.is_game_over():
-            if current_state.is_checkmate():
-                winner = current_state.outcome().winner
-                if winner == self.color:
-
-                    #return self.win
-                    return self.utility.board_value(current_state, self.factors)
-                else:
-                    #return self.lose
-                    return -self.utility.board_value(current_state, self.factors)
-            else:
-                return self.draw
-        else:
-            return self.notDone
+        return self.utility.board_value(current_state, self.factors, self.color)
 
     def backprop(self, result: float, child: Node):
         while child is not None:

@@ -9,21 +9,31 @@ import chess
 import chess.svg
 from project.chess_agents.Berkay.MCTSagent import MCTSAgent
 from project.chess_utilities.gegeven.example_utility import ExampleUtility
+from concurrent.futures import ProcessPoolExecutor
 
-TestCases = ["8/2K5/8/2k5/2b5/2B5/2Q5/8"]
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+TestCases = ["8/2K5/8/2k5/2b5/2B5/2Q5/8", "6k1/4K1bq/8/8/8/8/8/5RR1", "2n1qkrr/1b2Np1Q/3P2pP/p5N1/8/8/5K2/8", "5bKn/7B/3B1p1p/2p2p1k/2P2P1p/4P1pP/p5P1/8"] #, "4B1K1/6b1/6p1/5p1k/4pP1p/4P1pP/p7/8", "5nbr/4PP1k/5Knp/7P/8/8/8/8", "8/p7/p6p/1p3Kpk/p7/PRP2pPp/pPP2P1P/8", "5bKn/7B/3B1p1p/2p2p1k/2P2P1p/4P1pP/p5P1/8"]
+
 
 def test(win, lose, draw, notDone, c, cmb, ccc, cpa, ccp):
-    ans = 0
-    for i in TestCases:
-        ans += play_self(i, win, lose, draw, notDone, c, cmb, ccc, cpa, ccp)
-    return ans
+    with ProcessPoolExecutor() as executor:
+        # Submit each test case as a separate task
+        futures = [executor.submit(play_self, i, win, lose, draw, notDone, c, cmb, ccc, cpa, ccp) for i in TestCases]
+
+        # Collect the results
+        results = [future.result() for future in futures]
+
+    return sum(results)
+
 
 def play_self(TestCase,win, lose, draw, notDone, c, cmb, ccc, cpa, ccp):
     # Setup a clean board
     board = chess.Board()
     board.set_fen(TestCase)
     # Create the white and black agent
-    white_player = MCTSAgent(TomUtility(), 5.0, win, lose, draw, notDone, c, cmb, ccc, cpa, ccp)
+    white_player = MCTSAgent(TomUtility(), 5.0,[cmb, ccc, cpa, ccp, win, lose, draw, notDone, c])
     white_player.name = "White Player"
     black_player = ExampleAgent(ExampleUtility(), 0)
     black_player.name = "Black Player"
@@ -40,16 +50,16 @@ def play_self(TestCase,win, lose, draw, notDone, c, cmb, ccc, cpa, ccp):
             move = white_player.calculate_move(board)
             turn_white_player = False
             counter += 1
-            print("White plays")
+            #print("White plays")
         else:
             move = black_player.calculate_move(board)
             turn_white_player = True
-            print("Black plays")
+            #print("Black plays")
 
         # The move is played and the board is printed
-        board.push(move)
-        print(board)
-        print("----------------------------------------")
+        #board.push(move)
+        #print(board)
+        #print("----------------------------------------")
 
         # Check if a player has won
         if board.is_checkmate():
@@ -83,28 +93,36 @@ def play_self(TestCase,win, lose, draw, notDone, c, cmb, ccc, cpa, ccp):
             return counter * 10
 
 # Define the space of hyperparameters to explore
-space = {
-    'win': hp.uniform('win', 0, 10000),
-    'lose': hp.uniform('lose', -10000, 0),
-    'draw': hp.uniform('draw', -100, 0),
-    'notdone': hp.uniform('notdone', -100, 10),
-    'c': hp.uniform('c', 0.1, 1.5),
-    'cmb': hp.uniform('cmb', 0.001, 1),
-    'ccc': hp.uniform('ccc', 0.001, 1),
-    'cpa': hp.uniform('cpa', 0.001, 1),
-    'ccp': hp.uniform('ccp', 0.001, 1),
-}
+
 
 # Objective function
 def objective(params):
     turns_taken = test(params['win'], params['lose'], params['draw'], params['notdone'],
                             params['c'], params['cmb'], params['ccc'], params['cpa'], params['ccp'])
+    turns_taken2 = test(params['win'], params['lose'], params['draw'], params['notdone'],
+                       params['c'], params['cmb'], params['ccc'], params['cpa'], params['ccp'])
+
+    turns_taken = (turns_taken + turns_taken2)/2
+
     return {'loss': turns_taken, 'status': STATUS_OK}
 
-# Run the optimization
-trials = Trials()
-best = fmin(fn=objective, space=space, algo=tpe.suggest, max_evals=50, trials=trials)
 
-print("Best hyperparameters:", best)
+# Run the optimization
+if __name__ == '__main__':
+    space = {
+    'win': hp.uniform('win', 0, 1000),
+    'lose': hp.uniform('lose', -1000, 0),
+    'draw': hp.uniform('draw', -100, 100),
+    'notdone': hp.uniform('notdone', 0, 0),
+    'c': hp.uniform('c', 1, 2),
+    'cmb': hp.uniform('cmb', 0.001, 1),
+    'ccc': hp.uniform('ccc', 0.001, 1),
+    'cpa': hp.uniform('cpa', 0.001, 1),
+    'ccp': hp.uniform('ccp', 0.001, 1),
+    }
+    trials = Trials()
+    best = fmin(fn=objective, space=space, algo=tpe.suggest, max_evals=10, trials=trials)
+
+    print("Best hyperparameters:", best)
 
 

@@ -92,7 +92,7 @@ class TomUtility(Utility):
 
         return sum(capture_scores)
 
-    def board_value(self, board: chess.Board, factors: []):
+    def board_value(self, board: chess.Board, factors: [], color : chess.Color):
         n_white, n_black = 0, 0
 
         n_white += factors[0] * self.check_material_balance(board, chess.WHITE)
@@ -105,18 +105,23 @@ class TomUtility(Utility):
         n_black += factors[2] * self.check_piece_activity(board, chess.BLACK)
         n_black += factors[3] * self.check_capturable_pieces(board, chess.BLACK)
 
-        if board.is_check():  # If white is in check
-            n_white /= 2
-            n_black *= 2
+        ans = 0
+        if color == chess.WHITE:
+            ans = n_white - n_black
+        else:
+            ans = n_black - n_white
 
-        checks = [board.gives_check(move) for move in board.legal_moves]
-        if any(checks):  # Return True if any true value is in the list
-            n_white *= 2
-            n_black /= 2
-
-
-
-        return n_white - n_black
+        if board.is_game_over():
+            if board.is_checkmate():
+                winner = board.outcome().winner
+                if winner == color:
+                    return factors[4] #winn
+                else:
+                    return factors[5] #loss
+            else:
+                return factors[6] #sdraw
+        else:
+            return ans #not ended
 
 
 if __name__ == "__main__":
