@@ -89,20 +89,13 @@ def play_self(TestCase,win, lose, draw, notDone, c, cmb, ccc, cpa, ccp):
             running = False
             print("Draw by 75-moves rule")
             return counter * 10
-        elif counter >= 10:
+        elif counter >= 12:
             return counter * 10
-
-# Define the space of hyperparameters to explore
-
 
 # Objective function
 def objective(params):
     turns_taken = test(params['win'], params['lose'], params['draw'], params['notdone'],
                             params['c'], params['cmb'], params['ccc'], params['cpa'], params['ccp'])
-    turns_taken2 = test(params['win'], params['lose'], params['draw'], params['notdone'],
-                       params['c'], params['cmb'], params['ccc'], params['cpa'], params['ccp'])
-
-    turns_taken = (turns_taken + turns_taken2)/2
 
     return {'loss': turns_taken, 'status': STATUS_OK}
 
@@ -110,18 +103,18 @@ def objective(params):
 # Run the optimization
 if __name__ == '__main__':
     space = {
-    'win': hp.uniform('win', 0, 1000),
-    'lose': hp.uniform('lose', -1000, 0),
-    'draw': hp.uniform('draw', -100, 100),
-    'notdone': hp.uniform('notdone', 0, 0),
+    'win': hp.uniform('win', 0, 10000),
+    'lose': hp.uniform('lose', -10000, 0),
+    'draw': hp.uniform('draw', -1000, 100),
+    'notdone': hp.uniform('notdone', -0.001, 0.001),
     'c': hp.uniform('c', 1, 2),
-    'cmb': hp.uniform('cmb', 0.001, 1),
-    'ccc': hp.uniform('ccc', 0.001, 1),
-    'cpa': hp.uniform('cpa', 0.001, 1),
-    'ccp': hp.uniform('ccp', 0.001, 1),
+    'cmb': hp.uniform('cmb', 0, 100),
+    'ccc': hp.uniform('ccc', 0, 100),
+    'cpa': hp.uniform('cpa', 0, 100),
+    'ccp': hp.uniform('ccp', 0, 100),
     }
     trials = Trials()
-    best = fmin(fn=objective, space=space, algo=tpe.suggest, max_evals=10, trials=trials)
+    best = fmin(fn=objective, space=space, algo=tpe.suggest, max_evals=100, trials=trials)
 
     print("Best hyperparameters:", best)
 
