@@ -95,6 +95,11 @@ space = {
     'ccp': hp.uniform('ccp', 0.001, 1),
 }
 
+# 100%|██████████| 50/50 [38:48<00:00, 46.56s/trial, best loss: 20.0]
+# Best hyperparameters: {'c': 0.6877652929242366, 'ccc': 0.1292359419119079, 'ccp': 0.2732723601159815,
+#                       'cmb': 0.9892694421493049, 'cpa': 0.7743729064942103, 'draw': -77.59407301842083,
+#                       'lose': -171.82987515834975, 'notdone': -85.97615395159278, 'win': 6101.151057772751}
+
 # Objective function
 def objective(params):
     turns_taken = test(params['win'], params['lose'], params['draw'], params['notdone'],
