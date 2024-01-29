@@ -28,6 +28,7 @@ def play_self(TestCase,win, lose, draw, notDone, c, cmb, ccc, cpa, ccp):
     black_player = ExampleAgent(ExampleUtility(), 0)
     black_player.name = "Black Player"
 
+
     running = True
     turn_white_player = True
     counter = 0
